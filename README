@@ -1,0 +1,43 @@
+There are a few URL shortening services about, of which bit.ly is just one. However, it does provide a nice API for developers to interact with the site. Not only is it possible to shorten URL's, you can also reverse them, find out information about the site and get information about how many people have used to link. The API requires you to create an account to interact with the API. Once you have created an account you can use the API service.
+
+There are several functions available in this class but the main two are shorten() to turn a URL into its bit.ly equivalent and expand(), which will do the exact opposite.
+
+To convert a URL into its bit.ly equivalent you can call the shorten() function like this.
+
+include('bitly.php');
+$bitly = new bitly('username', 'apikey');
+echo $bitly->shorten('http://www.hashbangcode.com/');
+
+This will return http://bit.ly/Xgb15.
+
+To convert a bit.ly URL back to the original equivalent you can call the expand() function like this.
+
+include('bitly.php');
+$bitly = new bitly('username', 'apikey');
+echo $bitly->expand('http://bit.ly/Xgb15');
+
+This will return the original URL.
+
+The alternate use of the shorten() function is to return an array containing the bit.ly URL and a hash value returned by bit.ly. The following code.
+
+include('bitly.php');
+$bitly = new bitly('username', 'apikey');
+print_r($bitly->shorten('http://www.hashbangcode.com/', true));
+
+Will return the following array.
+
+Array
+(
+    [shortUrl] => http://bit.ly/Xgb15
+    [hash] => 5KYMv
+)
+
+This hash code can be used instead of the bit.ly URL to find out the original URL. The following code will return the original URL.
+
+echo $bitly->expand('', '5KYMv');
+
+You can also change the format of the returning code from bit.ly using the setFormat() function. However, this has little or no effect on the function of the class itself. To change the format to XML use the following code.
+
+$bitly->setFormat('xml');
+
+If you want to have a go for yourself I have created a tool that will allow you to convert a URL into a bit.ly URL.
