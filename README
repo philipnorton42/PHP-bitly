@@ -41,3 +41,5 @@ You can also change the format of the returning code from bit.ly using the setFo
 $bitly->setFormat('xml');
 
 If you want to have a go for yourself I have created a tool that will allow you to convert a URL into a bit.ly URL.
+
+For more information please see http://www.hashbangcode.com/blog/php-class-interact-bitly-api-405.html

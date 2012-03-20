@@ -90,7 +90,7 @@ class bitly{
     public function setFormat($format)
     {
         $format = strtolower($format);
-        if ( $format == 'json' || $format == 'xml' ) {
+        if ($format == 'json' || $format == 'xml') {
             $this->format = strtolower($format);
         } else {
             return 'Invalid format specified!';
@@ -140,8 +140,8 @@ class bitly{
     public function shorten($url, $returnHash = false)
     {
         $bitlyurl = 'http://api.bit.ly/shorten?version='.$this->version.'&longUrl='.$url.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
-        if ( $this->getResult($bitlyurl) !== false ) {
-            if ( $returnHash == true ) {
+        if ($this->getResult($bitlyurl) !== false) {
+            if ($returnHash == true) {
                 return array('shortUrl' => $this->results['shortUrl'], 'hash' => $this->results['hash']);
             } else {
                 return $this->results['shortUrl'];
@@ -160,13 +160,13 @@ class bitly{
      */
     public function expand($shortUrl, $hash = '')
     {
-        if ( $shortUrl != '' ) {
+        if ($shortUrl != '') {
             $bitlyurl = 'http://api.bit.ly/expand?version='.$this->version.'&shortUrl='.$shortUrl.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
         }
-        if ( $shortUrl == '' && $hash != '' ) {
+        if ($shortUrl == '' && $hash != '') {
             $bitlyurl = 'http://api.bit.ly/expand?version='.$this->version.'&hash='.$hash.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
         }
-        if ( $this->getResult($bitlyurl) !== false ) {
+        if ($this->getResult($bitlyurl) !== false) {
             return $this->results['longUrl'];
         }
         return false;
@@ -183,16 +183,16 @@ class bitly{
      */
     public function info($shortUrl, $hash = '', $keys = '')
     {
-        if ( $shortUrl != '' ) {
+        if ($shortUrl != '') {
             $bitlyurl = 'http://api.bit.ly/info?version='.$this->version.'&shortUrl='.$shortUrl.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
         }
-        if ( $shortUrl == '' && $hash != '' ) {
+        if ($shortUrl == '' && $hash != '') {
             $bitlyurl = 'http://api.bit.ly/info?version='.$this->version.'&hash='.$hash.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
         }
-        if ( $keys != '' ) {
+        if ($keys != '') {
             $bitlyurl .= '&keys='.$keys;
         }
-        if ( $this->getResult($shortUrl) !== false ) {
+        if ($this->getResult($shortUrl) !== false) {
             return $this->results;
         }
         return false;
@@ -208,13 +208,13 @@ class bitly{
      */
     public function stats($shortUrl, $hash = '')
     {
-        if ( $shortUrl != '' ) {
+        if ($shortUrl != '') {
             $bitlyurl = 'http://api.bit.ly/stats?version='.$this->version.'&shortUrl='.$shortUrl.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
         }
-        if ( $shortUrl == '' && $hash != '' ) {
+        if ($shortUrl == '' && $hash != '') {
             $bitlyurl = 'http://api.bit.ly/stats?version='.$this->version.'&hash='.$hash.'&login='.$this->login.'&apiKey='.$this->apikey.'&format='.$this->format;
         }
-        if ( $this->getResult($bitlyurl) !== false ) {
+        if ($this->getResult($bitlyurl) !== false) {
             return $this->results;
         }
         return false;
@@ -228,7 +228,7 @@ class bitly{
     public function errors()
     {
         $bitlyurl = 'http://api.bit.ly/errors?version='.$this->version.'&login='.$this->login.'&apiKey='.$this->apikey;
-        if ( $this->getResult($bitlyurl, true) !== false ) {
+        if ($this->getResult($bitlyurl, true) !== false) {
             return $this->results;
         }
         return false;
@@ -246,28 +246,28 @@ class bitly{
    */
     private function getResult($bitlyurl, $errors = false )
     {
-        if ( $errors ) {
+        if ($errors) {
             $tmpFormat = $this->format;
             $this->format = 'json';
         }
 
-        if ( $this->format == 'json' ) {
+        if ($this->format == 'json') {
             $results = json_decode(file_get_contents($bitlyurl), true);
-        } else if ( $this->format == 'xml' ) {
+        } elseif ($this->format == 'xml') {
             $xml = file_get_contents($bitlyurl);
             $results = $this->XML2Array($xml);
         }
 
-        if ( $errors ) {
+        if ($errors) {
             $this->format = $tmpFormat;
         }
 
-        if ( $results['statusCode'] != 'OK' ) {
+        if ($results['statusCode'] != 'OK') {
             $this->errors = $results;
             return false;
         }
 
-        if ( $errors ) {
+        if ($errors) {
             // Save everything in the results array
             $this->results = $results['results'];
         } else {
@@ -287,7 +287,7 @@ class bitly{
    */
     private function XML2Array($xml, $recursive = false)
     {
-        if ( !$recursive ) {
+        if (!$recursive) {
             $array = simplexml_load_string($xml);
         } else {
             $array = $xml;
@@ -295,9 +295,9 @@ class bitly{
 
         $newArray = array();
         $array = (array)$array;
-        foreach ( $array as $key => $value ) {
+        foreach (array as $key => $value) {
             $value = (array)$value;
-            if ( isset($value[0]) ) {
+            if (isset($value[0])) {
                 $newArray[$key] = trim($value[0]);
             } else {
                 $newArray[$key] = $this->XML2Array($value, true);
