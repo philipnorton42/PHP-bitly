@@ -295,7 +295,7 @@ class bitly{
 
         $newArray = array();
         $array = (array)$array;
-        foreach (array as $key => $value) {
+        foreach ($array as $key => $value) {
             $value = (array)$value;
             if (isset($value[0])) {
                 $newArray[$key] = trim($value[0]);
